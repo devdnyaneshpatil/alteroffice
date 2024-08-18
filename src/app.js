@@ -1,15 +1,21 @@
 const express=require("express")
 const cors=require("cors")
+const CustomError = require("./utils/customError")
 
 const app=express()
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cors())
 
-//app.use("/api/v1",require("./routes"))
+app.use("/api",require("./routes"))
 
 app.get("/",(req,res)=>{
     res.status(200).json({message:"Server Is Healthy",pid:process.pid,uptime:process.uptime()})
 })
+
+app.all('*', (req, res, next) => {
+    const err = new CustomError(`Can't find ${req.originalUrl} on the server!`, 404);
+    next(err);
+});
 
 module.exports=app
