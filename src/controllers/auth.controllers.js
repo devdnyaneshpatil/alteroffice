@@ -22,7 +22,7 @@ const registerController = async (req, res, next) => {
       password: hashedPassword,
     };
     const newUser = await authContext.createNewUser(userObj);
-    const token = jwt.sign({ userName }, JWT_SECRET);
+    const token = jwt.sign({ userName,userId:isUserAvailable._id }, JWT_SECRET);
     return res.status(201).json({
       msg: "User created successfully",
       userObj: {
@@ -54,7 +54,7 @@ const loginController = async (req, res, next) => {
         const err = new CustomError(`Incorrect Password`, 401);
         return next(err)
     }
-    const token = jwt.sign({ userName }, JWT_SECRET);
+    const token = jwt.sign({ userName,userId:isUserAvailable._id }, JWT_SECRET);
     return res.status(200).json({
       msg: "User LoggedIn Successfully",
       userObj: {
