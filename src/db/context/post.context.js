@@ -1,8 +1,13 @@
 const { Post } = require("../../models/index")
 
 const createPost = async (payload) => {
-    const post = new Post(payload).save()
+    const post = await new Post(payload).save()
     return post
 }
 
-module.exports={createPost}
+const getPostByPostId = async (id) => {
+    const post = await Post.findOne({ _id: id })
+    return post
+}
+
+module.exports={createPost,getPostByPostId}
