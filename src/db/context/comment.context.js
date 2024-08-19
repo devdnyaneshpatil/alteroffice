@@ -31,7 +31,18 @@ const getAllComments = async (postId, page, limit, sortBy, sortOrder) => {
 };
 
 const expandComment = async (postId,commentId) => {
-    
+    const comments = await Comment.paginate(
+    { postId, _id: commentId },
+    {
+      populate: {
+        path: "replies", // Populate the 'replies' field
+        populate: { path: "replies" }, // If you want to populate nested replies
+        options: { sort: { createdAt: -1 }}, // Get the two latest replies
+        // select: "text createdAt",
+      },
+    }
+    );
+    return comments
 }
 
 module.exports = { createComment, getCommentByCommentId, getAllComments,expandComment };
