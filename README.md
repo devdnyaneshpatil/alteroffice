@@ -337,7 +337,7 @@ This project is a social media API built using Node.js, Express, and MongoDB. It
 
 ## demo credentials
 
-userName:chunnu@gmail.com
+userName:chunnu
 password:chunnu
 
 - **Backend:** [https://alteroffice.onrender.com]
