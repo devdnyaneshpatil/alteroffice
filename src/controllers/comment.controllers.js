@@ -37,6 +37,27 @@ const createCommentController = async (req, res, next) => {
 const replyToCommentController = async (req, res, next) => {
   const { commentId, postId, text } = req.body;
   try {
+    const validate = isValidData(req.body, ["postId", "commentId","text"]);
+    if (validate !== true) {
+      const err = new CustomError(validate, 400);
+      return next(err);
+    }
+    const isPostExist = await postContext.getPostByPostId(postId);
+    if (!isPostExist) {
+      const err = new CustomError(
+        `Post not found with post id:-${postId}`,
+        404
+      );
+      return next(err);
+    }
+    const isCommentExist = await commentContext.getCommentByCommentId(commentId)
+    if (!isCommentExist) {
+      const err = new CustomError(
+        `Comment not found with comment id:-${commentId}`,
+        404
+      );
+      return next(err);
+    }
     const replyObj = {
       postId,
       parentCommentId: commentId,
