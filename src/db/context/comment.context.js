@@ -19,8 +19,10 @@ const getAllComments = async (postId, page, limit, sortBy, sortOrder) => {
   const comments = await Comment.find({ postId, parentCommentId: null })
     .populate({
       path: "replies",
-      select:"createdAt text",// Populate the 'replies' field
-      populate: { path: "replies" ,select:"createdAt text"}, // If you want to populate nested replies
+      select: "createdAt text",// Populate the 'replies' field
+      options:{limit:2},
+      populate: { path: "replies" ,select:"createdAt text"},
+       // If you want to populate nested replies
     })
     .lean();
 
