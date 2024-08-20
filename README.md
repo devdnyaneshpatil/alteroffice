@@ -36,7 +36,7 @@ This project is a social media API built using Node.js, Express, and MongoDB. It
 
 ## API Endpoints
 
--**BaseUrl** `https://user-manangement-2.onrender.com/api/v1`
+-**BaseUrl** `https://alteroffice.onrender.com/api`
 
 ### Auth Routes
 
@@ -335,12 +335,12 @@ This project is a social media API built using Node.js, Express, and MongoDB. It
 
 ## Deployed Links
 
-## demo admin credentials
+## demo credentials
 
-email:- omkar@gmail.com
-password: Password@123
+userName:chunnu@gmail.com
+password:chunnu
 
-- **Backend:** [https://user-manangement-2.onrender.com]
+- **Backend:** [https://alteroffice.onrender.com]
 
 
 ## Contributing
