@@ -3,12 +3,14 @@ const authContext = require("../db/context/auth.context");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET, HASH_SALT } = require("../config/constants");
+const isValidData = require("../utils/dataValidator");
 
 const registerController = async (req, res, next) => {
   const { userName, password } = req.body;
   try {
-    if (!userName || !password) {
-      const err = new CustomError(`Mandatory Fields Are Required`, 500);
+    const validate = isValidData(req.body, ["userName", "password"]);
+    if (validate !== true) {
+      const err = new CustomError(validate, 400);
       return next(err);
     }
     const isUserExist = await authContext.getUserByUsername(userName);
@@ -22,7 +24,7 @@ const registerController = async (req, res, next) => {
       password: hashedPassword,
     };
     const newUser = await authContext.createNewUser(userObj);
-    const token = jwt.sign({ userName,userId:isUserAvailable._id }, JWT_SECRET);
+    const token = jwt.sign({ userName,userId:newUser._id }, JWT_SECRET);
     return res.status(201).json({
       msg: "User created successfully",
       userObj: {
@@ -40,8 +42,9 @@ const registerController = async (req, res, next) => {
 const loginController = async (req, res, next) => {
   const { userName, password } = req.body;
   try {
-    if (!userName || !password) {
-      const err = new CustomError(`Mandatory Fields Are Required`, 500);
+    const validate = isValidData(req.body, ["userName", "password"]);
+    if (validate !== true) {
+      const err = new CustomError(validate, 400);
       return next(err);
     }
     const isUserAvailable = await authContext.getUserByUsername(userName);

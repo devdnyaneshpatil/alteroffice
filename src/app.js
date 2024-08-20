@@ -1,6 +1,7 @@
 const express=require("express")
 const cors=require("cors")
 const CustomError = require("./utils/customError")
+const errorHandler = require("./middlewares/error.middleware")
 
 const app=express()
 app.use(express.json())
@@ -17,5 +18,7 @@ app.all('*', (req, res, next) => {
     const err = new CustomError(`Can't find ${req.originalUrl} on the server!`, 404);
     next(err);
 });
+
+app.use(errorHandler)
 
 module.exports=app
